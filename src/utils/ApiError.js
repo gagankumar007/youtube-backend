@@ -9,7 +9,6 @@ constructor(
     this.statusCode = statusCode
     this.data = null
     this.message = message
-    this.success = flase;
     this.errors = errors
 
     if(stack){
