@@ -22,17 +22,42 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
 const toggleCommentLike = asyncHandler(async (req, res) => {
     const {commentId} = req.params
     //TODO: toggle like on comment
+    if (!isValidObjectId(commentId)) {
+        throw new ApiError("Invalid comment ID", 400)
+        }
+        const like = await Like.findOne({comment: commentId, user: req.user._id})
+        if (like) {
+            await like.remove()
+            return new ApiResponse(res, 200, "Like removed successfully")
+            }
+            await Like.create({comment: commentId, user: req.user._id})
+            return new ApiResponse(res, 201, "Like added successfully")
+
 
 })
 
 const toggleTweetLike = asyncHandler(async (req, res) => {
     const {tweetId} = req.params
     //TODO: toggle like on tweet
+    if (!isValidObjectId(tweetId)) {
+        throw new ApiError("Invalid tweet ID", 400)
+        }
+        const like = await Like.findOne({tweet: tweetId, user: req.user._id})
+        if (like) {
+            await like.remove()
+            return new ApiResponse(res, 200, "Like removed successfully")
+            }
+            await Like.create({tweet: tweetId, user: req.user._id})
+            return new ApiResponse(res, 201, "Like added successfully")
+
 }
 )
 
 const getLikedVideos = asyncHandler(async (req, res) => {
     //TODO: get all liked videos
+    const likedVideos = await Like.find({user: req.user._id, video: {$exists
+        : true}}).populate("video")
+        return new ApiResponse(res, 200, "Liked videos fetched successfully", likedVideos)
 })
 
 export {
