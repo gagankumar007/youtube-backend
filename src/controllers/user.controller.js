@@ -13,7 +13,6 @@ const generateAccessAndRefreshTokens = async (userId)=>{
             throw new ApiError("User not found", 404);
         }
 
-        // Ensure the tokens are awaited
         const accessToken = await user.generateToken();
         const refreshToken = await user.generateRefreshToken();
 
@@ -23,7 +22,7 @@ const generateAccessAndRefreshTokens = async (userId)=>{
 
         return { accessToken, refreshToken };
     } catch (error) {
-        // Log the error for debugging
+        
         console.error("Error generating tokens:", error);
         throw new ApiError("Failed to generate tokens", 500);
     }
