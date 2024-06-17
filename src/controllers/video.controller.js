@@ -74,7 +74,6 @@ const updateVideo = asyncHandler(async (req, res) => {
                 video.thumbnail = thumbnailCloudinaryPath.url
                 await video.save()
                 res.json(new ApiResponse( 200,video, "Video updated successfully"))
-    //TODO: update video details like title, description, thumbnail
 
 })
 
