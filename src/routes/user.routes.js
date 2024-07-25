@@ -39,6 +39,4 @@ router.route("/cover-image").patch(verfiyJwt,upload.single("coverImage"),updateC
 router.route("/c/:username").get(verfiyJwt,getUserChannelProfile)
 router.route("/history").get(verfiyJwt,getWatchHistory)
 
-
-
 export default router

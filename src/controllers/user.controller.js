@@ -24,7 +24,7 @@ const generateAccessAndRefreshTokens = async (userId)=>{
     } catch (error) {
         
         console.error("Error generating tokens:", error);
-        throw new ApiError("Failed to generate tokens", 500);
+        throw new ApiError(500,"Failed to generate tokens");
     }
 };
 const registerUser = asyncHandler(async (req, res)=>
@@ -65,7 +65,7 @@ const registerUser = asyncHandler(async (req, res)=>
 
     const avatarCloudinaryPath = await uploadOnCloudinary(avatarLocalPath);
     const coverImageCloudinaryPath = await uploadOnCloudinary(coverImageLocalPath);
-    console.log(avatarCloudinaryPath)
+
 
     if(!avatarCloudinaryPath){
         throw new ApiError(400,"Failed to upload avatar")
@@ -82,7 +82,6 @@ const registerUser = asyncHandler(async (req, res)=>
         password
     })
 
-    
     //remove password and refresh token field from database
 
     const createdUser= await User.findById(user._id).select(
