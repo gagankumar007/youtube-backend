@@ -7,7 +7,7 @@ import {
 import {verfiyJwt} from "../middlewares/auth.middleware.js"
 
 const router = Router();
-router.use(verfiyJwt); // Apply verifyJWT middleware to all routes in this file
+router.use(verfiyJwt); 
 
 router
     .route("/c/:channelId")

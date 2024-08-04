@@ -8,7 +8,7 @@ import {
 import {verfiyJwt} from "../middlewares/auth.middleware.js"
 
 const router = Router();
-router.use(verfiyJwt); // Apply verifyJWT middleware to all routes in this file
+router.use(verfiyJwt); 
 
 router.route("/toggle/v/:videoId").post(toggleVideoLike);
 router.route("/toggle/c/:commentId").post(toggleCommentLike);
