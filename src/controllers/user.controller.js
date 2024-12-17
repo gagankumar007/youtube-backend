@@ -30,7 +30,7 @@ const generateAccessAndRefreshTokens = async (userId)=>{
 const registerUser = asyncHandler(async (req, res)=>
 {
 
-    const {fullName,email,username,password}=req.body
+    const {fullName,email,username,password,skill}=req.body
 
     if([fullName,email,username,password].some((field)=>
     field?.trim()==="")){
@@ -63,17 +63,23 @@ const registerUser = asyncHandler(async (req, res)=>
     if(!avatarCloudinaryPath){
         throw new ApiError(400,"Failed to upload avatar")
     }
+    const skillsArray = Array.isArray(skill)
+    ? skill
+    : typeof skill === "string"
+    ? skill.split(",").map((s) => s.trim())
+    : [];
 
-    const user = await User.create({
-        fullName,
-        avatar:avatarCloudinaryPath.url,
-        coverImage:coverImageCloudinaryPath?.url || "",
-        email,
-        username:username,
-        password
-    })
+  const user = await User.create({
+    fullName,
+    username,
+    avatar: avatarCloudinaryPath.url,
+    coverImage: coverImageCloudinaryPath?.url || "",
+    email,
+    skills: skillsArray,
+    password,
+  });
 
-
+   
     const createdUser= await User.findById(user._id).select(
         "-password -refreshToken" 
     )
