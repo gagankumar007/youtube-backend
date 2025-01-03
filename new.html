@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 5px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow: auto;
+    }
+    .json-key {
+      color: #66d9ef;
+    }
+    .json-string {
+      color: #a6e22e;
+    }
+    .json-number {
+      color: #fd971f;
+    }
+    .json-boolean {
+      color: #f92672;
+    }
+    .json-null {
+      color: #ae81ff;
+    }
+  </style>
+</head>
+<body>
+  <h1>JSON Viewer</h1>
+  <div id="json-container"></div>
+
+  <script>
+    // JSON data
+    const jsonData = [
+      {
+        "sentiment": "positive",
+        "score": 85,
+        "quality": 90,
+        "language": "en",
+        "explanation": "I apologize, but the input \"vdfzvbdfvdfvjh\" is not a valid response to the question \"If you could travel anywhere in the world, where would you go and why?\".\n\nAs a result, I will return a JSON object with the following fields:\n\n```\n{\n  \"sentiment\": \"neutral\",\n  \"score\": 50,\n  \"quality\": 20,\n  \"language\": \"unknown\",\n  \"explanation\": \"The input is not a valid response to the question, it does not contain any meaningful information or sentiment. The score is low due to the lack of coherence and the presence of non-alphabetic characters.\"\n}\n```\n\nPlease note that this output is generated based on the assumption that the input is not a valid response, if you meant to provide a different input please let me know and I'll be happy to assist you."
+      }
+    ];
+
+    // Function to format JSON with syntax highlighting and handle \n
+    function syntaxHighlight(json) {
+      if (typeof json != 'string') {
+        json = JSON.stringify(json, null, 2);
+      }
+      json = json
+        .replace(/(&|<|>)/g, match => {
+          const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;' };
+          return map[match];    
+        })
+        .replace(/\\n/g, '<br>') // Replace \n with actual line breaks
+        .replace(/("(\\u[\da-fA-F]{4}|\\[^u]|[^\\"])*"|\b(true|false|null)\b|\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b)/g, match => {
+          let cls = 'json-number';
+          if (/^"/.test(match)) {
+            cls = /:$/.test(match) ? 'json-key' : 'json-string';
+          } else if (/true|false/.test(match)) {
+            cls = 'json-boolean';
+          } else if (/null/.test(match)) {
+            cls = 'json-null';
+          }
+          return `<span class="${cls}">${match}</span>`;
+        });
+      return json;
+    }
+
+    // Render JSON in the container
+    const container = document.getElementById('json-container');
+    const formattedJson = syntaxHighlight(jsonData);
+    container.innerHTML = `<pre>${formattedJson}</pre>`;
+  </script>
+</body>
+</html>
+ 

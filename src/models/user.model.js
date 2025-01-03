@@ -46,8 +46,10 @@ const userSchema = new Schema(
         },
         refreshToken:{
             type:String
-        }
-
+        },
+        skills: {
+            type: [String]
+          },
     },{
         timestamps:true
     })
